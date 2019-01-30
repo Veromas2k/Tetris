@@ -11,18 +11,22 @@
 <body>
 	<h1>Tetris</h1>
 	<div class="game">
-		<div id="menu">
-			<p><canvas id="next"></canvas>
-			<p><span id="score">00000</span></p>
-			<p><span id="cleared">0</span></p>
+		<div class="menu">
+			<div><canvas id="next"></canvas></div>
+			<div  id="scoreT">Score:
+			<span id="score">00000</span></div>
+			<div id="clearedT">Rows cleared:
+			<span id="cleared">0</span></div>
+			<button id="stop">Pause game</button>
 		</div>
-		<div class"playground">
-	
+		<div class="playground">
+			<canvas id="canvas"></canvas>
 		</div>
 	</div>
 </body>
 
 <footer>
 	<a href="https://codeincomplete.com/posts/javascript-tetris/">Link Tetris</a>
+	<a href="https://datatables.net/manual/installation">Link Tables</a>
 </footer>
 </html>
