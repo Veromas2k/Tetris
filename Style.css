@@ -1,1 +1,16 @@
-!
+.game {
+	border: 5px solid blue;
+	background-color: lightblue;
+}
+
+span {
+	font-size: 30px;
+}
+
+#cleared {
+	color: blue;
+}
+
+#score {
+	color: red;
+}
