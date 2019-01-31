@@ -3,17 +3,17 @@ html {
 }
 
 h1 {
-	padding: 15px 0px 15px 0px;
+	padding: 0px 0px 15px 0px;
 	text-align: center;
 	margin: auto;
-	font-size: 75px;
+	font-size: 50px;
 	font-style: comic;
 }
 
 .game {
 	
 	width: 800px;
-	height: 800px;
+	height: 840px;
 	margin: auto;
 	float: center;
 	border: 5px solid blue;
@@ -70,7 +70,7 @@ button {
 	display: inline-block;
 	margin: 20px 20px 20px 10px;
 	width: 400px;
-	height: 760px;
+	height: 800px;
 	border: 2px solid black;
 	float: right;
 	
