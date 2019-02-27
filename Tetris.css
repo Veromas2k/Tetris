@@ -1,0 +1,70 @@
+html {
+	background-color: LightBlue;
+}
+
+h1 {
+	padding: 0px 0px 15px 0px;
+	text-align: center;
+	margin: auto;
+	font-size: 50px;
+	font-style: comic;
+}
+
+.game {
+	
+	width: 800px;
+	height: 840px;
+	margin: auto;
+	float: center;
+	border: 5px solid black;
+	border-radius: 25px;
+	background-color: LightGrey;
+}
+
+.menu {
+	font-size: 40px;
+	display: inline-block;
+	padding: 20px 10px 20px 20px;
+	width: 320;
+	height: 760px;
+}
+
+span {
+	display: inline-block;
+	float: right;
+}
+
+#next {
+	background-color: White;
+	width: 160px;
+	height: 160px;
+	margin: 0px 80px 80px 80px;
+	border: 2px solid black;
+}
+
+
+#cleared {
+	text-align: right;
+	color: blue;
+}
+
+#score {
+	text-align: right;
+	color: red;
+}
+
+
+.playground {
+	background-color: White;
+	display: inline-block;
+	margin: 20px 20px 20px 10px;
+	width: 400px;
+	height: 800px;
+	border: 2px solid black;
+	float: right;
+	
+}
+
+footer {
+ text-align: center;
+}
