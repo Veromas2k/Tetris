@@ -1,6 +1,8 @@
 $(document).ready(function(){	
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
 	canvas.height = 800;
-	canvas.weigth = 400;
+	canvas.width = 400;
 	var grid = {
 		x: 20,
 		y: 40,
@@ -18,20 +20,20 @@ $(document).ready(function(){
 		Z: { blocks: [0x0C60, 0x4C80, 0xC600, 0x2640], color: 'red'    }
 	};
 	
-	function eachblock(type, x, y, dir, fn) {
-		var bit, result, row = 0, col = 0, blocks = type.blocks[dir];
-		for(bit = 0x8000 ; bit > 0 ; bit = bit >> 1) {
-			if (blocks & bit) {
-				fn(x + col, y + row);
-			}
-			if (++col === 4) {
-			col = 0;
-			++row;
-			}
-		}	
-    }
-	
-	alert(eachblock(I));
+	ctx.fillStyle = "red";
+	ctx.fillRect(0,0,20,20);	
+	ctx.fillRect(40,0,20,20);
+	ctx.fillRect(80,0,20,20);
+	ctx.fillRect(120,0,20,20);
+	ctx.fillRect(160,0,20,20);
+	ctx.fillRect(200,0,20,20);
+	ctx.fillRect(240,0,20,20);
+	ctx.fillRect(280,0,20,20);
+	ctx.fillRect(320,0,20,20);
+	ctx.fillRect(360,0,20,20);
+	ctx.fillRect(400,0,20,20);
+//alert(piece.I.blocks[0]);
+
 //#####################################
 //controls
 //#####################################

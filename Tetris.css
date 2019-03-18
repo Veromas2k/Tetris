@@ -62,7 +62,11 @@ span {
 	height: 800px;
 	border: 2px solid black;
 	float: right;
-	
+}
+
+.canvas {
+	width: 400px;
+	height: 800px;
 }
 
 footer {
