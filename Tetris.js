@@ -23,6 +23,9 @@ $(document).ready(function(){
 	var PieceString;
 	var varPiece;
 	var varPos;
+	var lastKey;
+	var move;
+	var border;
 	var grid = {
 		x: 20,
 		y: 40,
@@ -47,60 +50,95 @@ $(document).ready(function(){
 			PieceString = "0" + PieceString;
 		}
 		//alert(PieceString);
+		//###########reposition if out of borders###########
 		var count = 0;
 		while (count < 16){
 			currentPiece[count].state = PieceString.slice(count,count+1);
 				if(currentPiece[count].state == 1){
-					ctx.fillStyle = PieceColor;
-					ctx.fillRect(Position.x + currentPiece[count].x,Position.y + currentPiece[count].y,20,20);
+					if(lastKey == 3){
+					ctx.clearRect(0,0,400,800);
+						if(currentPiece[count].x - 20 + Position.x >= 0){
+							move = false;
+						}
+					}
+					if(lastKey == 1){
+					ctx.clearRect(0,0,400,800);
+						if(currentPiece[count].x + 20 + Position.x <= 380){
+							move = false;
+						}
+					}		
 				}
-				else if(currentPiece[count].state == 0){
-					ctx.clearRect(Position.x + currentPiece[count].x,Position.y + currentPiece[count].y,20,20);
-				}
-			count++;
+			count++; 
 		}
+		if(lastKey == 3 | move == true){
+			Position.x = Position.x - 20;
+		}
+		if(lastKey == 1 | move == true){
+			Position.x = Position.x + 20;
+		}		
+		
+		count = 0;
+		while(count < 16){
+			if(currentPiece[count].state == 1){
+				
+				ctx.fillStyle = PieceColor;
+				ctx.fillRect(Position.x + currentPiece[count].x,Position.y + currentPiece[count].y,20,20);
+				ctx.fillStyle = "black";
+				ctx.strokeRect(Position.x + currentPiece[count].x,Position.y + currentPiece[count].y,19,19);
+			}
+		count++;
+		}
+	move = true;
 	}
 	
-	
-	var PieceVar  = piece.O;
-	var PiecePos = 1;
+	var PieceRandom = 0;
+	var PieceVarR = [piece.I,piece.J,piece.L,piece.O,piece.S,piece.T,piece.Z];
+	var PieceVar = PieceVarR[PieceRandom];
+	var PiecePos = 0;
 	drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
 	
 	
-	
-	ctx.fillStyle = "red";
-	ctx.fillRect(0,0,20,20);	
-	ctx.fillRect(40,0,20,20);
-	ctx.fillRect(80,0,20,20);
-	ctx.fillRect(120,0,20,20);
-	ctx.fillRect(160,0,20,20);
-	ctx.fillRect(200,0,20,20);
-	ctx.fillRect(240,0,20,20);
-	ctx.fillRect(280,0,20,20);
-	ctx.fillRect(320,0,20,20);
-	ctx.fillRect(360,0,20,20);
-	ctx.fillRect(400,0,20,20);
-
+	ctx.fillStyle = "black";
+	ctx.strokeRect(160,0,80,80);
 
 //#####################################
 //controls
 //#####################################
  	window.onkeydown = function(event) {
 		switch(event.keyCode){
-			case 38://up
-				Position.y = Position.y - 20;
+			case 32://space
+				PieceRandom = PieceRandom + 1;
+				if(PieceRandom > 6){
+					PieceRandom = 0;
+				}
+				PieceVar = PieceVarR[PieceRandom];
+				ctx.clearRect(0,0,400,800);
 				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+			break;
+			case 38://up
+				if(PiecePos < 4){
+					PiecePos = PiecePos +1;
+				}
+				if(PiecePos == 4){
+					PiecePos = 0;
+				}
+				ctx.clearRect(0,0,400,800);
+				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+				//alert(PieceString);
 				break;
 			case 40://down
-				Position.y = Position.y + 20;
+			lastKey = 2;
+				ctx.clearRect(0,0,400,800);
 				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
 				break;
 			case 39://right
-				Position.x = Position.x + 20;
+				lastKey = 1;
+				ctx.clearRect(0,0,400,800);
 				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
 				break;
 			case 37://left
-				Position.x = Position.x - 20;
+				lastKey = 3;
+				ctx.clearRect(0,0,400,800);
 				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
 				break;
 		}
