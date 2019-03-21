@@ -21,11 +21,13 @@ $(document).ready(function(){
 		{ state:"" , x: 40 , y: 60},
 		{ state:"" , x: 60 , y: 60}]
 	var PieceString;
+	var PieceStringCheck;
 	var varPiece;
+	var varPieceCheck;
 	var varPos;
 	var lastKey;
 	var move;
-	var border;
+	var border = {minX: 0, maxX: 380, minY: 0, maxY: 780};
 	var grid = {
 		x: 20,
 		y: 40,
@@ -43,40 +45,64 @@ $(document).ready(function(){
 		Z: { blocks: [0x0C60, 0x4C80, 0xC600, 0x2640], color: 'red'    }
 	};
 	var Position = {x: 160,y: 0};
+	var PieceRandom = 0;
+	var PieceVarR = [piece.I,piece.J,piece.L,piece.O,piece.S,piece.T,piece.Z];
+	var PieceVar = PieceVarR[PieceRandom];
+	var PiecePos = 0;
+	var PiecePosCheck;
 	
+//#########################################	
+//										functions
+//#########################################
 	function drawCurrentPiece(varPiece,PieceColor){
 		PieceString = varPiece.toString(2);
 		while (PieceString.length < 16) {
 			PieceString = "0" + PieceString;
 		}
-		//alert(PieceString);
-		//###########reposition if out of borders###########
 		var count = 0;
 		while (count < 16){
 			currentPiece[count].state = PieceString.slice(count,count+1);
 				if(currentPiece[count].state == 1){
+					switch(currentPiece[count].x + Position.x){
+						case -20:
+							Position.x = Position.x + 20;
+							break;
+						case -40:
+							Position.x = Position.x + 40;
+							break;
+						case 400:
+							Position.x = Position.x - 20;
+							break;
+						case 420:
+							Position.x = Position.x - 40;
+							break;
+					}
+					if(lastKey == 0){
+					}
 					if(lastKey == 3){
 					ctx.clearRect(0,0,400,800);
-						if(currentPiece[count].x - 20 + Position.x >= 0){
+						if(currentPiece[count].x - 20 + Position.x < 0){
 							move = false;
 						}
 					}
 					if(lastKey == 1){
 					ctx.clearRect(0,0,400,800);
-						if(currentPiece[count].x + 20 + Position.x <= 380){
+						if(currentPiece[count].x + 20 + Position.x > 380){
 							move = false;
 						}
 					}		
 				}
 			count++; 
 		}
-		if(lastKey == 3 | move == true){
+		if(lastKey == 3 && move == true){
 			Position.x = Position.x - 20;
 		}
-		if(lastKey == 1 | move == true){
+		if(lastKey == 1 && move == true){
 			Position.x = Position.x + 20;
 		}		
-		
+		if(Position.x > 380){
+			Position.x = Position.x - (Position.x - 380);
+		}
 		count = 0;
 		while(count < 16){
 			if(currentPiece[count].state == 1){
@@ -89,15 +115,40 @@ $(document).ready(function(){
 		count++;
 		}
 	move = true;
+	lastKey = "";
 	}
 	
-	var PieceRandom = 0;
-	var PieceVarR = [piece.I,piece.J,piece.L,piece.O,piece.S,piece.T,piece.Z];
-	var PieceVar = PieceVarR[PieceRandom];
-	var PiecePos = 0;
+	function  PieceTurn(varPieceCheck){
+		PieceStringCheck = varPieceCheck.toString(2);
+		while (PieceStringCheck.length < 16) {
+			PieceStringCheck = "0" + PieceStringCheck;
+		}
+		alert(PieceStringCheck);
+		var count = 0;
+		while (count < 16){
+			currentPiece[count].state = PieceStringCheck.slice(count,count+1);
+			if(currentPiece[count].state == 1){
+				alert(PieceStringCheck.slice(count, count+1);
+			}
+		count++;	
+		}
+		
+		//###################
+		PiecePos = PiecePos +1;
+		if(PiecePos > 3){
+			PiecePos = 0;
+		}
+	}
+	function Redraw(){
+		ctx.clearRect(0,0,400,800);
+		drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+	}
+	
+//####################################
+//									game
+//####################################
+
 	drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
-	
-	
 	ctx.fillStyle = "black";
 	ctx.strokeRect(160,0,80,80);
 
@@ -106,49 +157,36 @@ $(document).ready(function(){
 //#####################################
  	window.onkeydown = function(event) {
 		switch(event.keyCode){
-			case 32://space
-				PieceRandom = PieceRandom + 1;
+			case 32://space ########REMOVE############
+				PieceRandom = PieceRandom + 1;															
 				if(PieceRandom > 6){
 					PieceRandom = 0;
 				}
 				PieceVar = PieceVarR[PieceRandom];
-				ctx.clearRect(0,0,400,800);
-				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+				Redraw();
 			break;
 			case 38://up
-				if(PiecePos < 4){
-					PiecePos = PiecePos +1;
+				lastKey = 0;
+				PiecePosCheck = PiecePos +1;
+				if(PiecePosCheck > 3){
+					PiecePosCheck = 0;
 				}
-				if(PiecePos == 4){
-					PiecePos = 0;
-				}
-				ctx.clearRect(0,0,400,800);
-				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+				PieceTurn((PieceVar).blocks[PiecePosCheck]);
+				Redraw();
 				//alert(PieceString);
 				break;
 			case 40://down
 			lastKey = 2;
-				ctx.clearRect(0,0,400,800);
-				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+				Redraw();
 				break;
 			case 39://right
 				lastKey = 1;
-				ctx.clearRect(0,0,400,800);
-				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+				Redraw();
 				break;
 			case 37://left
 				lastKey = 3;
-				ctx.clearRect(0,0,400,800);
-				drawCurrentPiece((PieceVar).blocks[PiecePos],(PieceVar).color);
+				Redraw();
 				break;
 		}
 	} 
 });
-
-
-
-
-
-
-
-
