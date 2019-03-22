@@ -11,7 +11,7 @@ h1 {
 }
 
 .game {
-	
+	position: relative;
 	width: 800px;
 	height: 840px;
 	margin: auto;
@@ -53,6 +53,11 @@ span {
 	color: red;
 }
 
+#start{
+	position: absolute;
+	left: 470px;
+	z-index: 1;
+}
 
 .playground {
 	background-color: White;
