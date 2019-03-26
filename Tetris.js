@@ -21,6 +21,9 @@ $(document).ready(function(){
 	var dropInterval = 1000; //ms
 	var lastTime = 0;
 	var stop = false;
+	var leftStop = false;
+	var rightStop = false;
+	
 	var matrix 
 	= [{blocks: [// T = 0
 		[0, 0, 0],
@@ -37,13 +40,32 @@ $(document).ready(function(){
 		[0, 0, 1],
 		[1, 1, 1,],
 	], color: "orange"},
-	
+	{blocks: [// Z = 3
+		[0, 0, 0],
+		[1, 1, 0],
+		[0, 1, 1],
+	], color: "red"},
+	{blocks: [// S = 4
+		[0, 0, 0],
+		[0, 1, 1],
+		[1, 1, 0],
+	], color: "green"},
+	{blocks: [// O = 5
+		[1, 1],
+		[1, 1],
+	], color: "yellow"},
+	{blocks: [// I = 6
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+	], color: "DeepSkyBlue"},
 	];
 	
 	var piece = {
 		pos: {x: 9, y: 0},
-		matrix: matrix[2].blocks,
-		color: matrix[2].color,
+		matrix: matrix[6].blocks,
+		color: matrix[6].color,
 	}
 	
 //###################################
@@ -84,6 +106,30 @@ $(document).ready(function(){
 		});
 	}
 	
+	function checkLeft(matrix){
+		matrix.forEach((row, y) => {
+			row.forEach((value, x) => {
+				if(value == 1){
+					if((piece.pos.x + x)-1 == -1){
+						leftStop = true;
+					}
+				}
+			});
+		});
+	}
+	
+	function checkRight(matrix){
+		matrix.forEach((row, y) => {
+			row.forEach((value, x) => {
+				if(value == 1){
+					if((piece.pos.x + x)+1 == 20){
+						rightStop = true;
+					}
+				}
+			});
+		});
+	}
+	
 	function draw(){
 		ctx.clearRect(0,0,40,80);
 		drawMatrix(piece.matrix,piece.pos.x,piece.pos.y,piece.color);
@@ -116,7 +162,7 @@ $(document).ready(function(){
 //####################################
 //game
 //####################################
-	
+	randomizePiece();
 	update();
 
 
@@ -140,13 +186,19 @@ $(document).ready(function(){
 					draw();
 				break;
 			case 39://right
-				piece.pos.x ++;
-				dropCounter = 0;
+				checkRight(piece.matrix);
+				if(rightStop == false){
+					piece.pos.x ++;
+				}
+				rightStop = false;
 				draw();			
 				break;
 			case 37://left
-				piece.pos.x --;
-				dropCounter = 0;
+				checkLeft(piece.matrix);
+				if(leftStop == false){
+					piece.pos.x --;
+				}
+				leftStop = false;
 				draw();			
 				break;
 		}
