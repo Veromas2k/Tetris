@@ -64,8 +64,8 @@ $(document).ready(function(){
 	
 	var piece = {
 		pos: {x: 9, y: 0},
-		matrix: matrix[6].blocks,
-		color: matrix[6].color,
+		matrix: matrix[3].blocks,
+		color: matrix[3].color,
 	}
 	
 //###################################
@@ -140,6 +140,17 @@ $(document).ready(function(){
 		dropCounter = 0;
 	}
 	
+	function mergeArenaPiece(arena,piece,color){
+		piece.matrix.forEach((row, y) => {
+			row.forEach((value, x) => {
+				if(value == 1){
+					arena[y = piece.pos.y + 1];
+				}
+			});
+		});		
+	}	
+	
+	alert(arena);
 	function update(time = 0){
 		const deltaTime = time - lastTime;
 		lastTime = time;
@@ -147,13 +158,12 @@ $(document).ready(function(){
 		if (dropCounter > dropInterval){
 			checkDrop(piece.matrix);
 			if(stop == true){
-				//alert("!");
+				mergeArenaPiece(arena,piece.matrix,piece.color);
 				stop = false;
 			}else{
 				pieceDrop();
 			}
 		}
-
 		draw();
 		requestAnimationFrame(update);
 	}
@@ -162,7 +172,7 @@ $(document).ready(function(){
 //####################################
 //game
 //####################################
-	randomizePiece();
+	//randomizePiece();
 	update();
 
 
@@ -172,7 +182,7 @@ $(document).ready(function(){
  	window.onkeydown = function(event) {
 		switch(event.keyCode){
 			case 32://space
-				
+				console.table(arena);
 				break;
 			case 38://up
 				dropCounter =0;
