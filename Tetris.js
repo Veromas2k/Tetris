@@ -7,8 +7,9 @@ $(document).ready(function(){
 	const ctx = canvas.getContext("2d");
 	canvas.height = 800;
 	canvas.width = 400;
-	ctx.scale(20,20);
-	const arena = createMatrix(20,40);
+	ctx.scale(33.3333,32);
+	const arena = createMatrix(12,25);
+	const colorBlock = createMatrix(12,25);
 	console.table(arena);
 
 	
@@ -69,7 +70,7 @@ $(document).ready(function(){
 
 	function pickPiece(number){
 		piece = {
-			pos: {x: 9, y: 0},
+			pos: {x: 5, y: 0},
 			matrix: matrix[number].blocks,
 			color: matrix[number].color,
 		};
@@ -86,11 +87,11 @@ $(document).ready(function(){
 	function drawArena(matrix){
 		matrix.forEach((row, y) => {
 			row.forEach((value, x) => {
-				if (value !== 0) {
-					ctx.fillStyle ="red";
+				if (value !== 0) {	
+					ctx.fillStyle = colorBlock[y][x];
 					ctx.fillRect(x, y, 1, 1);
 					ctx.fillStyle = "black";
-					ctx.lineWidth = 0.05;
+					ctx.lineWidth = 0.08;
 					ctx.strokeRect(x, y, 1, 1);
 				}
 			});
@@ -104,7 +105,7 @@ $(document).ready(function(){
 					ctx.fillStyle =color;
 					ctx.fillRect(px + x,  py + y, 1, 1);
 					ctx.fillStyle = "black";
-					ctx.lineWidth = 0.05;
+					ctx.lineWidth = 0.08;
 					ctx.strokeRect(px + x,py + y, 1, 1);
 				}
 			});
@@ -115,7 +116,7 @@ $(document).ready(function(){
 		matrix.forEach((row, y) => {
 			row.forEach((value, x) => {
 				if(value == 1){
-					if((piece.pos.y + y)+1 == 40){
+					if((piece.pos.y + y)+1 == 25){
 						stop = true;
 					}else if(arena[y + (piece.pos.y) + 1][x + (piece.pos.x)] == 1){
 						stop = true;
@@ -141,7 +142,7 @@ $(document).ready(function(){
 		matrix.forEach((row, y) => {
 			row.forEach((value, x) => {
 				if(value == 1){
-					if((piece.pos.x + x)+1 == 20 | arena[y + piece.pos.y][x + (piece.pos.x)+1] == 1){
+					if((piece.pos.x + x)+1 == 12 | arena[y + piece.pos.y][x + (piece.pos.x)+1] == 1){
 						rightStop = true;
 					}
 				}
@@ -150,9 +151,10 @@ $(document).ready(function(){
 	}
 	
 	function draw(){
-		ctx.clearRect(0,0,40,80);
-		drawMatrix(piece.matrix,piece.pos.x,piece.pos.y,piece.color);
+		ctx.clearRect(0,0,12,25);
 		drawArena(arena);
+		drawMatrix(piece.matrix,piece.pos.x,piece.pos.y,piece.color);
+		
 	}
 	
 	function pieceDrop(){
@@ -160,11 +162,12 @@ $(document).ready(function(){
 		dropCounter = 0;
 	}
 	
-	function mergeArenaPiece(arena,px,py,piece){
+	function mergeArenaPiece(arena,px,py,piece,color){
 		piece.matrix.forEach((row, y) => {
 			row.forEach((value, x) => {
 				if(value == 1){
 					arena[y + py][x + px] = value;
+					colorBlock[y + py][x + px] = color;
 				}
 			});
 		});		
@@ -178,7 +181,7 @@ $(document).ready(function(){
 		if (dropCounter > dropInterval){
 			checkDrop(piece.matrix);
 			if(stop == true){
-				mergeArenaPiece(arena,piece.pos.x,piece.pos.y,piece);
+				mergeArenaPiece(arena,piece.pos.x,piece.pos.y,piece,piece.color);
 				pickPiece(Math.floor(Math.random() * (7)));
 				stop = false;
 			}else{
@@ -203,7 +206,7 @@ $(document).ready(function(){
  	window.onkeydown = function(event) {
 		switch(event.keyCode){
 			case 32://space
-				pickPiece(Math.floor(Math.random() * (7)));
+				//pickPiece(Math.floor(Math.random() * (7)));
 				console.table(arena);
 				break;
 			case 38://up
@@ -216,7 +219,7 @@ $(document).ready(function(){
 					pieceDrop();
 				}
 				if(stop == true){
-					mergeArenaPiece(arena,piece.pos.x,piece.pos.y,piece);
+					mergeArenaPiece(arena,piece.pos.x,piece.pos.y,piece,piece.color);
 					stop = false;
 				}
 					draw();
