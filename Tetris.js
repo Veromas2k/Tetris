@@ -25,6 +25,7 @@ $(document).ready(function(){
 	var leftStop = false;
 	var rightStop = false;
 	var piece;
+	var dir = 1;
 	
 	var matrix 
 	= [{blocks: [// T = 0
@@ -111,6 +112,26 @@ $(document).ready(function(){
 			});
 		});
 	}
+	
+	function rotate(matrix,dir){
+		for (let y = 0; y < matrix.length; ++y){
+			for (let x = 0; x < y; ++x){
+				[
+					matrix[x][y],
+					matrix[y][x],
+				] = [ 
+					matrix[y][x],
+					matrix[x][y],
+				];
+			}
+		} 
+		alert([matrix]);
+		if(dir > 0){
+			matrix.forEach(row => row.reverse());
+		}else{
+			matrix.reverse();
+		}
+	} 
 	
 	function checkDrop(matrix){
 		matrix.forEach((row, y) => {
@@ -210,7 +231,11 @@ $(document).ready(function(){
 				console.table(arena);
 				break;
 			case 38://up
-				dropCounter =0;
+				dir++;
+				if(dir>3){
+					dir = 1;
+				}
+				rotate(piece.matrix,dir);
 				draw();
 				break;
 			case 40://down
@@ -222,7 +247,7 @@ $(document).ready(function(){
 					mergeArenaPiece(arena,piece.pos.x,piece.pos.y,piece,piece.color);
 					stop = false;
 				}
-					draw();
+					//draw();
 				break;
 			case 39://right
 				checkRight(piece.matrix);
@@ -231,7 +256,7 @@ $(document).ready(function(){
 				}
 				rightStop = false;
 				dropCounter = dropCounter - 22;
-				draw();			
+				//draw();			
 				break;
 			case 37://left
 				checkLeft(piece.matrix);
@@ -240,7 +265,7 @@ $(document).ready(function(){
 				}
 				leftStop = false;
 				dropCounter = dropCounter - 22;
-				draw();			
+				//draw();			
 				break;
 		}
 	} 
