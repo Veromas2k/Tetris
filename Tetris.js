@@ -8,8 +8,8 @@ $(document).ready(function(){
 	canvas.height = 800;
 	canvas.width = 400;
 	ctx.scale(33.3333,32);
-	const arena = createMatrix(12,25);
-	const colorBlock = createMatrix(12,25);
+	var arena;
+	var colorBlock;
 	console.table(arena);
 
 	
@@ -25,33 +25,34 @@ $(document).ready(function(){
 	var leftStop = false;
 	var rightStop = false;
 	var piece;
+	var rowVal = 0;
 	var dir = 1;
 	
 	var matrix 
 	= [{blocks: [// T = 0
-		[0, 0, 0],
-		[1, 1, 1,],
 		[0, 1, 0],
+		[1, 1, 1,],
+		[0, 0, 0],
 	],color: "purple"},
 	{blocks: [//J = 1
-		[0, 0, 0],
-		[1, 0, 0],
 		[1, 1, 1],
+		[0, 0, 1],
+		[0, 0, 0],
 	], color: "blue"},
 	{blocks: [//L = 2
+		[1, 1, 1],
+		[1, 0, 0],
 		[0, 0, 0],
-		[0, 0, 1],
-		[1, 1, 1,],
 	], color: "orange"},
 	{blocks: [// Z = 3
-		[0, 0, 0],
 		[1, 1, 0],
 		[0, 1, 1],
+		[0, 0, 0],
 	], color: "red"},
 	{blocks: [// S = 4
-		[0, 0, 0],
 		[0, 1, 1],
 		[1, 1, 0],
+		[0, 0, 0],
 	], color: "green"},
 	{blocks: [// O = 5
 		[1, 1],
@@ -99,6 +100,28 @@ $(document).ready(function(){
 		});
 	}	
 	
+	function rowClear(matrix){
+		matrix.forEach((row,y) =>{
+			row.forEach((value, x) =>{
+				if(value == 1){
+					rowVal++;
+				}
+			});
+			if(rowVal == 12){
+				//alert("12");
+				alert(matrix[y]);
+				let rowCount = 0;
+				while(rowCount < 25){
+					//alert(matrix[]);
+					matrix[y - rowCount] = matrix[y - (rowCount+1)];
+					
+					rowCount++;
+				}
+			}
+			rowVal = 0;
+		});
+	}
+	
 	function drawMatrix(matrix,px,py,color){
 		matrix.forEach((row, y) => {
 			row.forEach((value, x) => {
@@ -125,7 +148,7 @@ $(document).ready(function(){
 				];
 			}
 		} 
-		alert([matrix]);
+		//alert([matrix]);
 		if(dir > 0){
 			matrix.forEach(row => row.reverse());
 		}else{
@@ -208,18 +231,29 @@ $(document).ready(function(){
 			}else{
 				pieceDrop();
 			}
+		rowClear(arena);
 		}
 		draw();
-		requestAnimationFrame(update);
+		if(arena[2][6] == 1){
+			alert("!!");
+			start.style.display = "block";
+		}else{
+			requestAnimationFrame(update);
+		}
 	}
 	
 	
 //####################################
 //game
 //####################################
+start.addEventListener("click",startScript);
+function startScript(){
+	arena = createMatrix(12,25);
+	colorBlock = createMatrix(12,25);
+	start.style.display = "none";
 	pickPiece(Math.floor(Math.random() * (7)));
 	update();
-
+};
 
 //#####################################
 //controls
@@ -228,6 +262,7 @@ $(document).ready(function(){
 		switch(event.keyCode){
 			case 32://space
 				//pickPiece(Math.floor(Math.random() * (7)));
+				//alert(arena[2][6]);
 				console.table(arena);
 				break;
 			case 38://up
