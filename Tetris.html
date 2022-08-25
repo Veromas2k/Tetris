@@ -5,14 +5,14 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="Tetris.js"></script>
 	<link rel="stylesheet" type="text/css" href="Tetris.css" />
-
 </head>
 
 <body>
-	<h1>Tetris</h1>
 	<div class="game">
 		<div class="menu">
-			<div><canvas id="next"></canvas></div>
+			<div class="preview">
+				<div><canvas id="previewCanvas"></canvas></div>
+			</div>
 			<div  id="scoreT">Score:
 			<span id="score">00000</span></div>
 			<div id="clearedT">Rows cleared:
@@ -20,7 +20,7 @@
 			<div id="start">Click to play!</div>
 		</div>
 		<div class="playground">
-			<canvas id="canvas"></canvas>
+			<canvas id="gameCanvas" width="400" height="800"></canvas>
 		</div>
 	</div>
 </body>

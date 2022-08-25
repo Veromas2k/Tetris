@@ -2,18 +2,10 @@ html {
 	background-color: LightBlue;
 }
 
-h1 {
-	padding: 0px 0px 15px 0px;
-	text-align: center;
-	margin: auto;
-	font-size: 50px;
-	font-style: comic;
-}
-
 .game {
 	position: relative;
-	width: 800px;
-	height: 840px;
+	width: 810px;
+	height: 850px;
 	margin: auto;
 	float: center;
 	border: 5px solid black;
@@ -24,9 +16,17 @@ h1 {
 .menu {
 	font-size: 40px;
 	display: inline-block;
-	padding: 20px 10px 20px 20px;
-	width: 320;
-	height: 760px;
+	width: 340px;
+	margin: 20px 0px 0px 20px;
+}
+
+.preview {
+	background-color: white;
+	width: 120px;
+	height: 120px;
+	border: 2px solid black;
+	margin-left: 100px;
+	display: inline-block;
 }
 
 span {
@@ -53,25 +53,20 @@ span {
 	color: red;
 }
 
-#start{
+#start {
 	position: absolute;
 	left: 470px;
 	z-index: 1;
 }
 
 .playground {
-	background-color: White;
+	background-color: white;
 	display: inline-block;
-	margin: 20px 20px 20px 10px;
+	margin: 20px 20px 20px 20px;
 	width: 400px;
 	height: 800px;
 	border: 2px solid black;
 	float: right;
-}
-
-.canvas {
-	width: 400px;
-	height: 800px;
 }
 
 footer {
