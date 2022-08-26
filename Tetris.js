@@ -16,44 +16,45 @@ $(document).ready(function(){
 	var dropInterval = 1000; //ms
 	var lastTime = 0;
 	var stop = false;
+	var blocked = 0;
 	var currentPiece;
 	var dir = 1;
 	
 	var piece = [
 		{matrix: [// T = 0
-			[0, 1, 0],
-			[1, 1, 1,],
+			[7, 0, 7],
 			[0, 0, 0],
+			[7, 7, 7],
 		],color: "purple"},
 		{matrix: [//J = 1
 			[1, 1, 1],
-			[0, 0, 1],
-			[0, 0, 0],
+			[7, 7, 1],
+			[7, 7, 7],
 		], color: "blue"},
 		{matrix: [//L = 2
-			[1, 1, 1],
-			[1, 0, 0],
-			[0, 0, 0],
+			[2, 2, 2],
+			[2, 7, 7],
+			[7, 7, 7],
 		], color: "orange"},
 		{matrix: [// Z = 3
-			[1, 1, 0],
-			[0, 1, 1],
-			[0, 0, 0],
+			[3, 3, 7],
+			[7, 3, 3],
+			[7, 7, 7],
 		], color: "red"},
 		{matrix: [// S = 4
-			[0, 1, 1],
-			[1, 1, 0],
-			[0, 0, 0],
+			[7, 4, 4],
+			[4, 4, 7],
+			[7, 7, 7],
 		], color: "green"},
 		{matrix: [// O = 5
-			[1, 1],
-			[1, 1],
+			[5, 5],
+			[5, 5],
 		], color: "yellow"},
 		{matrix: [// I = 6
-			[0, 1, 0, 0],
-			[0, 1, 0, 0],
-			[0, 1, 0, 0],
-			[0, 1, 0, 0],
+			[7, 6, 7, 7],
+			[7, 6, 7, 7],
+			[7, 6, 7, 7],
+			[7, 6, 7, 7],
 		], color: "DeepSkyBlue"},
 	];
 
@@ -112,11 +113,6 @@ $(document).ready(function(){
 		});
 	}
 		
-	function pieceDrop(){
-		currentPiece.pos.y++;
-		dropCounter = 0;
-	}
-	
 	function mergeArenaPiece(arena,px,py,piece){
 		currentPiece.matrix.forEach((row, y) => {
 			row.forEach((value, x) => {
@@ -151,6 +147,11 @@ $(document).ready(function(){
 		}
 	}
 	
+	function pieceDrop(){
+		currentPiece.pos.y++;
+		dropCounter = 0;
+	}
+
 	function draw(){
 		ctxG.clearRect(0,0,maxWidth,maxHeight);
 		drawArena(arena);
@@ -161,7 +162,7 @@ $(document).ready(function(){
 		field.forEach((row, y) => {
 			row.forEach((value, x) => {
 				if (value !== 7) {	
-					getFillstyleColor(value);
+					ctxG.fillStyle = piece[value].color;
 					ctxG.fillRect(x, y, 1, 1);
 					ctxG.fillStyle = "black";
 					ctxG.lineWidth = 0.08;
@@ -175,7 +176,7 @@ $(document).ready(function(){
 		matrix.forEach((row, y) => {
 			row.forEach((value, x) => {
 				if (value !== 7) {
-					getFillstyleColor(value);
+					ctxG.fillStyle = piece[value].color;
 					ctxG.fillRect(px + x,  py + y, 1, 1);
 					ctxG.fillStyle = "black";
 					ctxG.lineWidth = 0.08;
@@ -185,31 +186,6 @@ $(document).ready(function(){
 		});
 	}
 	
-	function getFillstyleColor(value){
-		switch(value){
-			case 0:
-				ctxG.fillStyle = piece[0].color;
-				break;
-			case 1:
-				ctxG.fillStyle = piece[1].color;
-				break;
-			case 2:
-				ctxG.fillStyle = piece[2].color;
-				break;
-			case 3:
-				ctxG.fillStyle = piece[3].color;
-				break;
-			case 4:
-				ctxG.fillStyle = piece[4].color;
-				break;
-			case 5:
-				ctxG.fillStyle = piece[5].color;
-				break;						
-			case 6:
-				ctxG.fillStyle = piece[6].color;
-				break;
-		}
-	}
 //####################################
 //game
 //####################################
@@ -252,7 +228,7 @@ function startScript(){
 				break;
 			case 39://right
 				currentPiece.pos.x ++;
-				dropCounter = dropCounter - 22;		
+				dropCounter = dropCounter - 22;
 				break;
 			case 37://left
 				currentPiece.pos.x --;
